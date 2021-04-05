@@ -5,8 +5,8 @@ import java.util.stream.Collectors;
 
 public class radio_map {
 	//deciding how many blocks a radio map will have
-	final static int i_block = 10; //rows
-	final static int j_block = 10; //columns
+	final static int i_block = Configuration.MAP_NUM_ROWS; //rows
+	final static int j_block = Configuration.MAP_NUM_COLS; //columns
 	final static int numberOfMeasurements = 5;
 	public List<List<List<Double>>> radioMap = new ArrayList<List<List<Double>>>();
 	public APs APs = new APs();
@@ -37,7 +37,8 @@ public class radio_map {
 					}
 					median = median.stream().sorted().collect(Collectors.toList());
 					double tempRSS = median.get(median.size()/2);
-					if(median.size() % 2 == 0) tempRSS = (median.get((median.size()-1)/2) + median.get(median.size()/2))/2;
+					if(median.size() % 2 == 0) 
+						tempRSS = (median.get((median.size()-1)/2) + median.get(median.size()/2))/2;
 					radioMap.get(j).get(i).add(tempRSS);
 					median.clear();
 				}

@@ -6,7 +6,7 @@ import java.util.Map;
 
 public class RTUser_localization {
 	//private final int numberOfMeasurements = 5;
-	private final int K = 4; //K in WKNN
+	private final int K = Configuration.K; //K in WKNN
 	private final double INF = 100000;
 	private List<Double> currentRSS = new ArrayList<Double>();
 	public List<Integer> currentLocation = new ArrayList<Integer>();
@@ -104,7 +104,7 @@ public class RTUser_localization {
 					if(min > coefficient.get(i).get(j)) {
 						//check if on the same line
 						if (nearestBlocks.size() >= 2) {
-							if(skip(i, j)) continue;
+							if(Configuration.SKIP_SOME_POINTS_ON_THE_LINE) if(skip(i, j) == true) continue;
 						}
 						min = coefficient.get(i).get(j);
 						indexI = i;

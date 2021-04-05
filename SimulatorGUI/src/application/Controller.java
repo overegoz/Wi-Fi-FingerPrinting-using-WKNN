@@ -51,7 +51,8 @@ public class Controller implements Initializable {
 	}
 	
 	public void drawCurrentLocation(GraphicsContext context, List<Integer> currentLocation) {
-		System.out.println("Current Location:" + currentLocation.get(0) + " " + currentLocation.get(1));
+		System.out.printf("\n(Actual) Current Location: %d, %d  [Controller.java]\n", 
+						  currentLocation.get(0), currentLocation.get(1));
 		double position_x = currentLocation.get(0) * 380.0 / 1000.0;
 		double position_y = currentLocation.get(1) * 380.0 / 1000.0;
 
@@ -60,7 +61,8 @@ public class Controller implements Initializable {
 	}
 	
 	public void drawEstimatedLocation(GraphicsContext context, List<Double> estimatedLocation) {
-		System.out.println("Estimated Location:" + estimatedLocation.get(0) + " " + estimatedLocation.get(1));
+		//System.out.println("Estimated Location:" + estimatedLocation.get(0) + " " + estimatedLocation.get(1));
+		System.out.printf("(Proposed)Estimated Location: %.2f, %.2f [Controller.java]\n", estimatedLocation.get(0), estimatedLocation.get(1));
 		double position_x = estimatedLocation.get(0) * 380.0 / 1000.0;
 		double position_y = estimatedLocation.get(1) * 380.0 / 1000.0;
 		
@@ -81,7 +83,7 @@ public class Controller implements Initializable {
 	
 	public void drawAPs(GraphicsContext context, List<List<Integer>> locationOfAPs) {
 		for(int i = 0; i < locationOfAPs.size(); i++) {
-			System.out.println("AP Location:" + locationOfAPs.get(i).get(0) + " " + locationOfAPs.get(i).get(1));
+			//System.out.println("AP Location:" + locationOfAPs.get(i).get(0) + " " + locationOfAPs.get(i).get(1));
 			double position_x = locationOfAPs.get(i).get(0) * 380.0 / 1000.0;
 			double position_y = locationOfAPs.get(i).get(1) * 380.0 / 1000.0;
 				
@@ -89,7 +91,17 @@ public class Controller implements Initializable {
 			context.drawImage(wifi, position_x - 8 + 16, position_y - 8 + 16, width, width);
 		}
 	}
-	
+	public double getEucDist(List<Integer> currentLocation, List<Double> estimatedLocation) {
+		double realX = currentLocation.get(0) * 1.0;
+		double realY = currentLocation.get(1) * 1.0;
+		double estX = estimatedLocation.get(0) * 1.0;
+		double estY = estimatedLocation.get(1) * 1.0;
+		
+		return Math.sqrt(
+				 Math.pow(realX-estX, 2)
+				 + Math.pow(realY-estY, 2)
+			     ); 
+	}
 	public void buttonStartPressed() {
 		RTUser_localization localization = new RTUser_localization();
 		localization.localization();
@@ -99,6 +111,8 @@ public class Controller implements Initializable {
 		drawAPs(grid.getGraphicsContext2D(), localization.radio_map.APs.locationOfAPs);
 		drawCurrentLocation(grid.getGraphicsContext2D(), localization.currentLocation);
 		drawEstimatedLocation(grid.getGraphicsContext2D(), localization.estimatedLocation);
-		
+
+		double errorDistance = getEucDist(localization.currentLocation, localization.estimatedLocation);
+		System.out.printf("(Est error) Estimation error: %.2f [Controller.java]\n", errorDistance);
 	}
 }

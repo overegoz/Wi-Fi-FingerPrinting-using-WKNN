@@ -7,15 +7,9 @@ public class location {
 	private int y;
 	public static int maxLocation = 1000;
 	
-	public location() {
-		x = 0; 
-		y = 0;
-	}
+	public location() {	x = 0; y = 0; }
 	
-	public void setLocation(int x, int y) {
-		this.x = x;
-		this.y = y;
-	}
+	public void setLocation(int x, int y) { this.x = x; this.y = y;	}
 	
 	public List<Integer> getLocation() {
 		List<Integer> location = new ArrayList<Integer>();
@@ -44,5 +38,4 @@ public class location {
 		System.out.println(location.get(1));
 		System.out.println();
 	}
-
 }
